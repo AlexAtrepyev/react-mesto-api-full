@@ -1,0 +1,12 @@
+.header__action {
+  margin-left: 24px;
+  font-weight: 400;
+  background-color: #000;
+  color: #fff;
+  border: none;
+}
+
+.header__action:hover {
+  opacity: .6;
+  cursor: pointer;
+}
