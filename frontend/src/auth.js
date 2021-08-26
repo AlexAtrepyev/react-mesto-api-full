@@ -7,7 +7,7 @@ const checkResponseStatus = (res) => {
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
-    credentials: 'include',
+    //credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -19,7 +19,7 @@ export const register = (password, email) => {
 export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
-    credentials: 'include',
+    //credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
