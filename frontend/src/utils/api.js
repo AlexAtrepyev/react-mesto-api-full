@@ -1,7 +1,6 @@
 class Api {
-  constructor({ baseUrl, /*authorization*/ }) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
-    //this._authorization = authorization;
   }
   
   _checkResponseStatus(res) {
@@ -10,17 +9,15 @@ class Api {
   
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
-      headers: {
-        //authorization: this._authorization
-      }
+      credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
   
   setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: {
-        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -33,8 +30,8 @@ class Api {
   setUserAvatar({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
+      credentials: 'include',
       headers: {
-        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -45,17 +42,15 @@ class Api {
   
   getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
-      headers: {
-        //authorization: this._authorization
-      }
+      credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
   
   addCard({ title, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
-        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -68,23 +63,16 @@ class Api {
   removeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: {
-        //authorization: this._authorization
-      }
+      credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
   
   changeLikeCardStatus(cardId, needLike) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: needLike ? 'PUT': 'DELETE',
-      headers: {
-        //authorization: this._authorization
-      }
+      credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
 }
 
-export default new Api({
-  baseUrl: 'https://backend.mesto.nomoredomains.monster',
-  //authorization: '7214c9c3-83e9-4888-acd9-406a09a18fba'
-});
+export default new Api('https://backend.mesto.nomoredomains.monster');
