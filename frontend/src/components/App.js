@@ -34,31 +34,26 @@ function App() {
   const [successStatus, setSuccessStatus] = React.useState(false);
   
   React.useEffect(() => {
-    handleTokenCheck();
+    auth.checkToken()
+      .then(res => setSuccessAuth(res.email))
+      .catch(err => console.log(err));
   }, []);
   
   React.useEffect(() => {
     if (loggedIn) {
       history.push("/main");
       Promise.all([api.getUserInfo(), api.getCardList()])
-      .then(([user, initialCards]) => {
-        setCurrentUser(user);
-        setCards(initialCards);
-      })
-      .catch(err => console.log(err));
-    }
-  }, [loggedIn]);
-  
-  function handleTokenCheck() {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      auth.checkToken(token)
-        .then(res => {
-          setEmail(res.data.email);
-          setLoggedIn(true);
+        .then(([user, initialCards]) => {
+          setCurrentUser(user);
+          setCards(initialCards);
         })
         .catch(err => console.log(err));
     }
+  }, [loggedIn]);
+  
+  function setSuccessAuth(email) {
+    setEmail(email);
+    setLoggedIn(true);
   }
   
   function onRegister(password, email) {
@@ -77,12 +72,7 @@ function App() {
   
   function onLogin(password, email) {
     auth.authorize(password, email)
-      .then(data => {
-        if (data.token) {
-          localStorage.setItem('jwt', data.token);
-          handleTokenCheck();
-        }
-      })
+      .then(() => setSuccessAuth(email))
       .catch(err => {
         setSuccessStatus(false);
         showInfoTooltip();

@@ -1,7 +1,7 @@
 class Api {
-  constructor({ baseUrl, authorization }) {
+  constructor({ baseUrl, /*authorization*/ }) {
     this._baseUrl = baseUrl;
-    this._authorization = authorization;
+    //this._authorization = authorization;
   }
   
   _checkResponseStatus(res) {
@@ -11,7 +11,7 @@ class Api {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: {
-        authorization: this._authorization
+        //authorization: this._authorization
       }
     }).then(res => this._checkResponseStatus(res));
   }
@@ -20,7 +20,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
-        authorization: this._authorization,
+        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -34,7 +34,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
-        authorization: this._authorization,
+        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -46,7 +46,7 @@ class Api {
   getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: {
-        authorization: this._authorization
+        //authorization: this._authorization
       }
     }).then(res => this._checkResponseStatus(res));
   }
@@ -55,7 +55,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: {
-        authorization: this._authorization,
+        //authorization: this._authorization,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
@@ -69,22 +69,22 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
-        authorization: this._authorization
+        //authorization: this._authorization
       }
     }).then(res => this._checkResponseStatus(res));
   }
   
   changeLikeCardStatus(cardId, needLike) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: needLike ? 'PUT': 'DELETE',
       headers: {
-        authorization: this._authorization
+        //authorization: this._authorization
       }
     }).then(res => this._checkResponseStatus(res));
   }
 }
 
 export default new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-24',
-  authorization: '7214c9c3-83e9-4888-acd9-406a09a18fba'
+  baseUrl: 'https://backend.mesto.nomoredomains.monster',
+  //authorization: '7214c9c3-83e9-4888-acd9-406a09a18fba'
 });
