@@ -9,6 +9,7 @@ class Api {
   
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
       credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
@@ -42,6 +43,7 @@ class Api {
   
   getCardList() {
     return fetch(`${this._baseUrl}/cards`, {
+      method: 'GET',
       credentials: 'include'
     }).then(res => this._checkResponseStatus(res));
   }
