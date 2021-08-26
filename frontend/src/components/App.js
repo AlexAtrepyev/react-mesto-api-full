@@ -34,7 +34,7 @@ function App() {
   const [successStatus, setSuccessStatus] = React.useState(false);
   
   React.useEffect(() => {
-    auth.checkToken()
+    api.getUserInfo()
       .then(res => setSuccessAuth(res.email))
       .catch(err => console.log(err));
   }, []);
@@ -81,7 +81,6 @@ function App() {
   }
   
   function onSignOut() {
-    localStorage.removeItem('jwt');
     setEmail(null);
     setLoggedIn(false);
   }

@@ -27,14 +27,3 @@ export const authorize = (password, email) => {
   })
   .then(res => res.ok ? Promise.resolve('Успешная авторизация') : Promise.reject(`Ошибка: ${res.status}`));
 };
-
-export const checkToken = () => {
-  return fetch(`${BASE_URL}/users/me`, {
-    method: 'GET',
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(res => checkResponseStatus(res));
-}
