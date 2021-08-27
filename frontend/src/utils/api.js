@@ -10,7 +10,13 @@ class Api {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
-      credentials: 'include'
+      mode: 'same-origin',
+      redirect: 'follow',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
     }).then(res => this._checkResponseStatus(res));
   }
   
