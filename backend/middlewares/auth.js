@@ -3,7 +3,7 @@ const AuthError = require('../errors/auth-error');
 
 module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
-  if (!token) throw new AuthError(401, `Cookies: ${req.cookies}!!!`);
+  if (!token) throw new AuthError(401, JSON.stringify(req.cookies));
 
   let payload;
   try {
