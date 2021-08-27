@@ -27,3 +27,11 @@ export const authorize = (password, email) => {
   })
   .then(res => res.ok ? Promise.resolve('Успешная авторизация') : Promise.reject(`Ошибка: ${res.status}`));
 };
+
+export const unauthorize = () => {
+  return fetch(`${BASE_URL}/signin`, {
+    method: 'DELETE',
+    credentials: 'include'
+  })
+  .then(res => res.ok ? Promise.resolve('Успешный выход') : Promise.reject(`Ошибка: ${res.status}`));
+};

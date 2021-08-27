@@ -81,8 +81,12 @@ function App() {
   }
   
   function onSignOut() {
-    setEmail(null);
-    setLoggedIn(false);
+    auth.unauthorize()
+      .then(() => {
+        setEmail(null);
+        setLoggedIn(false);
+      })
+      .catch(err => console.log(err));
   }
   
   function handleEditAvatarClick() {
