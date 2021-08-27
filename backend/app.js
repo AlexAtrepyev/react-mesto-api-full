@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
-const { createUser, login } = require('./controllers/users');
+const { createUser, login, logout } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
@@ -47,6 +47,7 @@ app.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+app.delete('/signin', logout);
 
 app.use(auth);
 
