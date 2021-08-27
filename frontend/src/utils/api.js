@@ -10,7 +10,6 @@ class Api {
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
-      mode: 'same-origin',
       redirect: 'follow',
       credentials: 'include',
       headers: {
@@ -19,7 +18,7 @@ class Api {
       },
     }).then(res => this._checkResponseStatus(res));
   }
-  
+
   setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
