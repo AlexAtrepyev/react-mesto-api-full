@@ -1,19 +1,21 @@
 require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const { celebrate, Joi, errors } = require('celebrate');
-const cookieParser = require('cookie-parser');
-const { createUser, login, logout } = require('./controllers/users');
-const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const auth = require('./middlewares/auth');
+const errorHandler = require('./middlewares/error-handler');
+const { createUser, login, logout } = require('./controllers/users');
 const NotFoundError = require('./errors/not-found-error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
 
+app.use(helmet());
 app.use(cookieParser());
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -64,20 +66,6 @@ app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  let { statusCode = 500, message } = err;
-
-  function checkMessage(text) {
-    if (message.includes(text)) {
-      statusCode = 400;
-      message = text;
-    }
-  }
-
-  checkMessage('Некорректный email');
-  checkMessage('Некорректная ссылка');
-  res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
-  next();
-});
+app.use(errorHandler);
 
 app.listen(PORT, () => console.log(`Сервер запущен на ${PORT} порте`));
