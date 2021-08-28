@@ -76,12 +76,14 @@ module.exports.login = (req, res, next) => {
     .then((user) => {
       const { NODE_ENV, JWT_SECRET } = process.env;
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
-      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true }).end();
+      res.cookie('jwt', token, { maxAge: 3600000 * 24 * 7, httpOnly: true });
+      res.send({ message: 'Успешная авторизация' });
     })
     .catch(next);
 };
 
 module.exports.logout = (req, res, next) => {
-  res.clearCookie('jwt').end();
+  res.clearCookie('jwt');
+  res.send({ message: 'Успешный выход' });
   return next();
 };

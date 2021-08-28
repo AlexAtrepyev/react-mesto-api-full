@@ -7,6 +7,7 @@ const { createUser, login, logout } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
+const NotFoundError = require('./errors/not-found-error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -37,14 +38,14 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string(),
-    email: Joi.string().required(),
+    avatar: Joi.string().required().pattern(/^https?:\/\/(w{3}.)?[^а-яё\s]*/),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), createUser);
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 }), login);
@@ -55,7 +56,9 @@ app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
-app.use((req, res) => res.status(404).send({ message: 'Несуществующий роут' }));
+app.use(() => {
+  throw new NotFoundError('Несуществующий роут');
+});
 
 app.use(errorLogger);
 
