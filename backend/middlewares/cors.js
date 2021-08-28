@@ -1,8 +1,8 @@
 const allowedCors = [
   'https://frontend.mesto.nomoredomains.monster',
-  'http://frontend.mesto.nomoredomains.monster'
+  'http://frontend.mesto.nomoredomains.monster',
 ];
-const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
 
 module.exports = (req, res, next) => {
   const { origin } = req.headers;
@@ -21,5 +21,5 @@ module.exports = (req, res, next) => {
     return res.end();
   }
 
-  next();
+  return next();
 };
