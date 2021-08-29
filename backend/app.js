@@ -10,6 +10,7 @@ const auth = require('./middlewares/auth');
 const errorHandler = require('./middlewares/error-handler');
 const { createUser, login, logout } = require('./controllers/users');
 const NotFoundError = require('./errors/not-found-error');
+const regex = require('./utils/regex');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -40,7 +41,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/^https?:\/\/(w{3}.)?[^а-яё\s]*/),
+    avatar: Joi.string().pattern(regex),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
